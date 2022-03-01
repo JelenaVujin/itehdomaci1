@@ -12,25 +12,26 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="jumbotron" style="color:#D1BE7C"  >
+<div class="jumbotron" style="color:#D1BE7C"  >
        <h1>BIBLIOTEKA</h1>
     </div>
 <div class="container">
   <div class="row">
     <div class="col-sm">
-    <a href="#" class="btn btn-success btn-block" id="dodajRezervacijuDugme" >Dodaj rezervaciju</a>
+    <button type="button" class="btn btn-success btn-block" id="dodajRezervacijuDugme" data-toggle="modal" data-target="#modalDR">Dodaj rezervaciju</button>
     </div>
     <div class="col-sm">
-    <a href="#" class="btn  btn-success btn-block" id="pretraziRezervacijuDugme">Pretrazi rezervacije</a>
+    <button type="button" class="btn  btn-success btn-block" id="pretraziRezervacijuDugme">Pretrazi rezervacije</button>
     </div>
     <div class="col-sm">
-    <a href="#" class="btn btn-success btn-block" id="dodajClanaDugme" >Dodaj clana</a>
+    <button type="button" class="btn btn-success btn-block" id="dodajClanaDugme" data-toggle="modal" data-target="#modalDCL">Dodaj clana</button>
     </div>
     <div class="col-sm">
-    <a href="#" class="btn  btn-success btn-block" id="dodajKnjiguDugme" >Dodaj knjigu</a>
+    <button type="button" class="btn  btn-success btn-block" id="dodajKnjiguDugme" data-toggle="modal" data-target="#modalDK">Dodaj knjigu</button>
     </div>
   </div>
 </div>
+
 <div class="panel-body table-responsive">
    <table class="table">
       <thead>
@@ -44,19 +45,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+         <tr>
            <td>
-            <ul class="action-list">
+           <ul class="action-list">
               <li><a href="#" class="btn btn-primary"><i class="bi bi-pencil" ></i></a></li>
               <li><a href="#" class="btn btn-danger"><i class="bi bi-trash2"></i></a></li>
-            </ul>
+           </ul>
            </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-          </tr>
+           
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
       </tbody>
     </table>
  </div>
+
+</body>
+</html>
