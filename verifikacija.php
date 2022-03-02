@@ -15,6 +15,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
 
     $un=validate($_POST['username']);
     $ps=validate($_POST['password']);
+    
 
     if(empty($un)){
         header("Location:index.php?error=Morate uneti korisnicko ime");
@@ -28,7 +29,7 @@ if(isset($_POST['username']) && isset($_POST['password'])){
        if($odg->num_rows==1){
            $red=mysqli_fetch_assoc($odg);
            if($red['username']==$un && $red['lozinka']==$ps){
-        $_SESSION['user_id'] = $zaposleni->id;
+        $_SESSION['user_id'] = $red['id'];
         header('Location: home.php');
         exit();
            }else{
@@ -45,3 +46,4 @@ if(isset($_POST['username']) && isset($_POST['password'])){
     exit();
 }
 
+?>

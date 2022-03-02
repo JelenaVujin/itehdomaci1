@@ -1,3 +1,14 @@
+<?php
+session_start();
+include 'broker.php';
+include 'model/rezervacija.php';
+
+if (!isset($_SESSION['user_id'])) {
+  header('Location: index.php');
+  exit();
+}
+$rez=Rezervacija::vratiSveRezervacije($conn);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,22 +23,25 @@
     <title>Document</title>
 </head>
 <body>
-<div class="jumbotron" style="color:#D1BE7C"  >
+<div class="jumbotron" style="color:#D1BE7C" >
        <h1>BIBLIOTEKA</h1>
     </div>
 <div class="container">
   <div class="row">
     <div class="col-sm">
-    <button type="button" class="btn btn-success btn-block" id="dodajRezervacijuDugme" data-toggle="modal" data-target="#modalDR">Dodaj rezervaciju</button>
+    <a  class="btn btn-success btn-block" id="dodajRezervaciju"  href="dodajRez.php">Dodaj rezervaciju</a>
     </div>
     <div class="col-sm">
     <button type="button" class="btn  btn-success btn-block" id="pretraziRezervacijuDugme">Pretrazi rezervacije</button>
     </div>
     <div class="col-sm">
-    <button type="button" class="btn btn-success btn-block" id="dodajClanaDugme" data-toggle="modal" data-target="#modalDCL">Dodaj clana</button>
+    <a class="btn btn-success btn-block"  id="dodajClanaDugme" href="dodajClana.php">Dodaj clana</a>
     </div>
+   
     <div class="col-sm">
-    <button type="button" class="btn  btn-success btn-block" id="dodajKnjiguDugme" data-toggle="modal" data-target="#modalDK">Dodaj knjigu</button>
+    <button type="button" class="btn  btn-success btn-block" id="sortiraj">Sortiranje</button>
+    </div>
+    
     </div>
   </div>
 </div>
@@ -40,11 +54,13 @@
             <th>RBR</th>
             <th>Ime clana</th>
             <th>Knjiga</th>
-            <th>Pisac</th>
             <th>Datum</th>
         </tr>
       </thead>
       <tbody>
+        <?php foreach($rez as $rezervacija):
+        $i=1;
+        ?>
          <tr>
            <td>
            <ul class="action-list">
@@ -53,15 +69,19 @@
            </ul>
            </td>
            
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><?php echo $i; $i++;?></td>
+              <td><?php echo $rezervacija['imePrezime'];?></td>
+              <td><?php echo $rezervacija['naziv'];?></td>
+              <td><?php echo $rezervacija['datum'];?></td>
             </tr>
+           <?php endforeach;?>
       </tbody>
+     
     </table>
  </div>
-
+ 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

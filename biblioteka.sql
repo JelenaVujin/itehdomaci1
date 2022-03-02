@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2022 at 02:45 PM
+-- Generation Time: Mar 02, 2022 at 03:17 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.27
 
@@ -40,26 +40,6 @@ CREATE TABLE `clan` (
 
 INSERT INTO `clan` (`id`, `imePrezime`, `clanOd`, `clanDo`) VALUES
 (1, 'Jelena Vujin', '2022-02-25', '2023-02-25');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `knjiga`
---
-
-CREATE TABLE `knjiga` (
-  `idKnjiga` int(11) NOT NULL,
-  `naziv` varchar(255) NOT NULL,
-  `pisac` varchar(255) NOT NULL,
-  `izdavac` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `knjiga`
---
-
-INSERT INTO `knjiga` (`idKnjiga`, `naziv`, `pisac`, `izdavac`) VALUES
-(1, 'Norveska suma', 'Haruki Murakami', 'Geopoetika');
 
 -- --------------------------------------------------------
 
@@ -112,12 +92,6 @@ ALTER TABLE `clan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `knjiga`
---
-ALTER TABLE `knjiga`
-  ADD PRIMARY KEY (`idKnjiga`);
-
---
 -- Indexes for table `rezervacija`
 --
 ALTER TABLE `rezervacija`
@@ -133,16 +107,6 @@ ALTER TABLE `zaposleni`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `knjiga`
---
-ALTER TABLE `knjiga`
-  MODIFY `idKnjiga` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- Constraints for dumped tables
 --
 
@@ -150,8 +114,7 @@ ALTER TABLE `knjiga`
 -- Constraints for table `rezervacija`
 --
 ALTER TABLE `rezervacija`
-  ADD CONSTRAINT `rezervacija_ibfk_1` FOREIGN KEY (`idClan`) REFERENCES `clan` (`id`),
-  ADD CONSTRAINT `rezervacija_ibfk_2` FOREIGN KEY (`knjiga`) REFERENCES `knjiga` (`idKnjiga`);
+  ADD CONSTRAINT `rezervacija_ibfk_1` FOREIGN KEY (`idClan`) REFERENCES `clan` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
