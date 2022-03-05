@@ -18,12 +18,25 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="style/home.css" type="text/css">
-
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
   <title>Document</title>
+  <style>
+  .error{
+       
+        color:#A94442;
+        padding:10px;
+        width:95%;
+        border-radius:5px;
+        text-align: center;
+        margin: 20px auto;
+        font-size:20px;
+      }
+      </style>
 </head>
 
 <body>
@@ -33,25 +46,24 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
   <div class="container">
     <div class="row">
       <div class="col-sm">
-        <a class="btn btn-success btn-block" id="dodajRezervaciju" href="dodajRez.php">Dodaj rezervaciju</a>
+        <a class="btn btn-success btn-block"  id="dodajRezervaciju" >Dodaj rezervaciju</a>
       </div>
       <div class="col-sm">
-        <button type="button" class="btn  btn-success btn-block" id="pretraziRezervacijuDugme">Pretrazi rezervacije</button>
+        <button type="button" class="btn btn-success btn-block" id="pretraziRezervacijuDugme">Pretrazi rezervacije</button>
       </div>
       <div class="col-sm">
-        <a class="btn btn-success btn-block" id="dodajClanaDugme" href="dodajClana.php">Dodaj clana</a>
+        <button class="btn btn-success btn-block"  data-toggle="modal" data-target="#dodajClanaModal" >Dodaj clana</button>
       </div>
 
       <div class="col-sm">
         <button type="button" class="btn  btn-success btn-block" id="sortiraj">Sortiranje</button>
       </div>
 
-    </div>
   </div>
   </div>
 
   <div class="panel-body table-responsive">
-    <table class="table">
+    <table class="table" id="tabela">
       <thead>
         <tr>
           <th>Izmena/Brisanje</th>
@@ -80,6 +92,7 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
             <td><?php echo $i;  $i++; ?></td>
             <td><?php echo $r['imePrezime']; ?></td>
             <td><?php echo $r['knjiga']; ?></td>
+            <td><?php echo $r['idR']; ?></td>
             <td><?php echo $r['pisac']; ?></td>
             <td><?php echo $r['datum']; ?></td>
           </tr>
@@ -88,10 +101,46 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
 
     </table>
   </div>
+<!--MODALI-->
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
+
+
+<div class="modal fade" id="dodajClanaModal" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-body">
+           <p class="error"></p>
+              <form id="unosClana">
+                 <h3 style="color: black; text-align:left">Dodaj clana</h3>
+                          <div class="form-group">
+                              <label for="">Ime i prezime</label>
+                              <input type="text"  name="imePrezime" id="imePrezime" class="form-control" />
+                          </div>
+                          <div class="form-group">
+                               <label for="">Clan od: </label>
+                               <input type="date" name="clanOd" id="clanOd" class="form-control" />
+                          </div>
+                          <div class="form-group">
+                               <label for="">Clan do: </label>
+                               <input type="date"  name="clanDo" id="clanDo" class="form-control" />
+                          </div>
+                         
+                               <button id="dodaj" type="button" class="btn btn-success ">Sacuvaj</button>
+                               <button type="button"  class="btn btn-success " data-dismiss="modal">Zatvori</button>
+                       
+                    
+              </form>
+           
+          </div>
+        </div>
+      </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="ajax.js" type="text/javascript"></script>
 </body>
 
 </html>

@@ -13,9 +13,16 @@
         $this->clanDo=$clanDo;
     }
     public static function dodajClana(Clan $clan,mysqli $conn){
-        if($clan['imePrezime'] === '' || $clan['clanOd'] === '' || $clan['clanDo'] === ''){
-           echo 'Polja moraju biti popunjena';
-    }
+        if($clan->imePrezime=='' || $clan->clanOd=='' || $clan->clanDo==''){
+            echo "Morate popuniti sva polja";
+        }
+     
+        $query="INSERT INTO clan ( imePrezime, clanOd, clanDo) VALUES ('$clan->imePrezime','$clan->clanOd','$clan->clanDo')";
+        $result=$conn->query($query);
+       
+      
+       
+    
     }
     public static function vratiSveClanove(mysqli $conn)
     {
