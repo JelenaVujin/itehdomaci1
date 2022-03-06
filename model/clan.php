@@ -20,6 +20,7 @@
         $query="INSERT INTO clan ( imePrezime, clanOd, clanDo) VALUES ('$clan->imePrezime','$clan->clanOd','$clan->clanDo')";
         $result=$conn->query($query);
        
+       
       
        
     

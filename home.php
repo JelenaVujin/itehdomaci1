@@ -2,6 +2,7 @@
 session_start();
 include 'broker.php';
 include 'model/rezervacija.php';
+include 'model/clan.php';
 
 
 if (!isset($_SESSION['user_id'])) {
@@ -10,6 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $rez = Rezervacija::vratiSveRezervacije($conn);
+$clanovi=Clan::vratiSveClanove($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +48,7 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
   <div class="container">
     <div class="row">
       <div class="col-sm">
-        <a class="btn btn-success btn-block"  id="dodajRezervaciju" >Dodaj rezervaciju</a>
+        <button class="btn btn-success btn-block"   data-toggle="modal" data-target="#dodajRezervacijuModal">Dodaj rezervaciju</button>
       </div>
       <div class="col-sm">
         <button type="button" class="btn btn-success btn-block" id="pretraziRezervacijuDugme">Pretrazi rezervacije</button>
@@ -84,15 +86,13 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
           <tr>
             <td>
               <ul class="action-list">
-                <li><a href="izmeniRezervaciju.php" class="btn btn-primary"><i class="bi bi-pencil"></i></a></li>
+                <li><a href='izmeniRezervaciju.php?id=<?php echo $rID?>' class="btn btn-primary"><i class="bi bi-pencil"></i></a></li>
                 <li><a href='brisanjeRezervacije.php?id=<?php echo $rID?>'class="btn btn-danger"><i class="bi bi-trash2"></i></a></li>
               </ul>
-            </td>
-
+          </td>
             <td><?php echo $i;  $i++; ?></td>
             <td><?php echo $r['imePrezime']; ?></td>
             <td><?php echo $r['knjiga']; ?></td>
-            <td><?php echo $r['idR']; ?></td>
             <td><?php echo $r['pisac']; ?></td>
             <td><?php echo $r['datum']; ?></td>
           </tr>
@@ -124,8 +124,49 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
                                <label for="">Clan do: </label>
                                <input type="date"  name="clanDo" id="clanDo" class="form-control" />
                           </div>
-                         
                                <button id="dodaj" type="button" class="btn btn-success ">Sacuvaj</button>
+                               <button type="button"  class="btn btn-success " data-dismiss="modal">Zatvori</button>
+              </form>
+          </div>
+          </div>
+         </div>
+</div>
+
+
+
+<div class="modal fade" id="dodajRezervacijuModal" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-body">
+           <p class="error"></p>
+              <form id="unosRezervacije">
+                 <h3 style="color: black; text-align:left">Dodaj rezervaciju</h3>
+                         
+                          <div class="form-group">
+                               <label for="">Knjiga: </label>
+                               <input type="text" name="knjiga" id="knjiga" class="form-control" />
+                          </div>
+                          <div class="form-group">
+                               <label for="">Pisac: </label>
+                               <input type="text"  name="pisac" id="pisac" class="form-control" />
+                          </div>
+                          <div class="form-group">
+                               <label for="">Datum: </label>
+                               <input type="date"  name="datum" id="datum" class="form-control" />
+                          </div>
+                          <div class="form-group">
+                              <label for="clanovi">Clan: </label>
+                              <select class="form-control" name="idClan" id="idClan">
+                                <?php foreach($clanovi as $c):  ?>
+                                    <option value='<?php echo $c['idClan'];?>'  >
+                                   
+                                   <?php echo $c['imePrezime'];?>
+                                    </option>
+                                 <?php endforeach; ?>
+                    </select>
+                          </div>
+                         
+                               <button id="dodajRezervaciju" type="button" class="btn btn-success ">Sacuvaj</button>
                                <button type="button"  class="btn btn-success " data-dismiss="modal">Zatvori</button>
                        
                     
@@ -135,12 +176,8 @@ $rez = Rezervacija::vratiSveRezervacije($conn);
         </div>
       </div>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <script src="ajax.js" type="text/javascript"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="ajax.js" type="text/javascript"></script>
 </body>
-
 </html>
