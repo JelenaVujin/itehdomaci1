@@ -38,6 +38,15 @@ $clanovi=Clan::vratiSveClanove($conn);
         margin: 20px auto;
         font-size:20px;
       }
+      .sortiranje{
+        cursor:pointer;
+      }
+      #sortTabela .th-sort-asc::after{
+        content: "\25b4";
+      }
+      #sortTabela .th-sort-desc::after{
+        content: "\25be";
+      }
       </style>
 </head>
 
@@ -58,22 +67,22 @@ $clanovi=Clan::vratiSveClanove($conn);
       </div>
 
       <div class="col-sm">
-        <button type="button" class="btn  btn-success btn-block" id="sortiraj">Sortiranje</button>
+        <button type="button" class="btn  btn-success btn-block" id="excel">Export u Excel</button>
       </div>
 
   </div>
   </div>
 
   <div class="panel-body table-responsive">
-    <table class="table" id="tabela">
+    <table class="table sortable" id="sortTabela">
       <thead>
         <tr>
           <th>Izmena/Brisanje</th>
           <th>RBR</th>
-          <th>Ime clana</th>
-          <th>Knjiga</th>
-          <th>Pisac</th>
-          <th>Datum</th>
+          <th class="sortiranje" data-sort="name">Ime clana</th>
+          <th class="sortiranje" data-sort="name">Knjiga</th>
+          <th class="sortiranje" data-sort="name">Pisac</th>
+          <th class="sortiranje" data-sort="date">Datum</th>
         </tr>
       </thead>
       <tbody>
@@ -86,7 +95,7 @@ $clanovi=Clan::vratiSveClanove($conn);
           <tr>
             <td>
               <ul class="action-list">
-                <li><a href='izmeniRezervaciju.php?id=<?php echo $rID?>' class="btn btn-primary"><i class="bi bi-pencil"></i></a></li>
+                <li><a  class="btn btn-primary"><i class="bi bi-pencil"></i></a></li>
                 <li><a href='brisanjeRezervacije.php?id=<?php echo $rID?>'class="btn btn-danger"><i class="bi bi-trash2"></i></a></li>
               </ul>
           </td>
@@ -179,5 +188,51 @@ $clanovi=Clan::vratiSveClanove($conn);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="ajax.js" type="text/javascript"></script>
+<script>
+
+var poredjenje={
+  name:function(a,b){//metoda sa nazivom name iz data-sort 
+    if(a<b){
+      return -1;
+    }else{
+      return a>b?1:0;
+    }
+  },
+  date:function(a,b){//metoda sa nazivom date iz data-sort 
+    a=new Date(a);
+    b=new Date(b);
+    return a-b;
+  }
+};
+$('.sortable').each(function(){
+  var $tabela=$(this);
+  var $tbody=$tabela.find('tbody');
+  var $hederi=$tabela.find('th');
+  var redovi=$tbody.find('tr').toArray();
+  $hederi.on('click',function(){
+    var $heder=$(this);
+    var vrsta=$heder.data('sort');
+    var kolona;
+    if($heder.is('.asc') || $heder.is('.desc')){
+      $heder.toggleClass('asc desc');
+      $tbody.append(redovi.reverse());
+    }else{
+      $heder.addClass('asc');
+      $heder.siblings().removeClass('asc desc');
+      if(poredjenje.hasOwnProperty(vrsta)){
+        kolona=$hederi.index(this);
+        redovi.sort(function(a,b){
+          a=$(a).find('td').eq(kolona).text();
+          b=$(b).find('td').eq(kolona).text();
+          return poredjenje[vrsta](a,b);
+        });
+        $tbody.append(redovi);
+      }
+    }
+  });
+
+})
+
+</script>
 </body>
 </html>
