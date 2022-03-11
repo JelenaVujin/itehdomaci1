@@ -239,6 +239,7 @@ $(document).ready(function(){
             url:'pretraga.php',
             data:{
                 knjiga:$('#pretraziRezervacijuDugme').val(),
+                idClan:$('#pretraziRezervacijuDugme').val(),
             },
             success:function(data){
                 $("#tbd").html(data); //tdb id za tbody i dodajemo mu data
