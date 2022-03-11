@@ -60,7 +60,7 @@ $clanovi=Clan::vratiSveClanove($conn);
         <button class="btn btn-success btn-block"   data-toggle="modal" data-target="#dodajRezervacijuModal">Dodaj rezervaciju</button>
       </div>
       <div class="col-sm">
-        <button type="button" class="btn btn-success btn-block" id="pretraziRezervacijuDugme">Pretrazi rezervacije</button>
+        <input type="text" class="btn btn-block" id="pretraziRezervacijuDugme"placeholder="Pretrazi rezervacije">
       </div>
       <div class="col-sm">
         <button class="btn btn-success btn-block"  data-toggle="modal" data-target="#dodajClanaModal" >Dodaj clana</button>
@@ -85,7 +85,7 @@ $clanovi=Clan::vratiSveClanove($conn);
           <th class="sortiranje" data-sort="date">Datum</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="tbd">
      
         <?php 
           $i = 1; 
@@ -232,12 +232,20 @@ $('.sortable').each(function(){
   });
 
 });
-//export u excel
 $(document).ready(function(){
-  $("#exportToExcel").click(function(e){
-
-  })
-})
+    $('#pretraziRezervacijuDugme').keypress(function(){
+        $.ajax({
+            type:'post',
+            url:'pretraga.php',
+            data:{
+                knjiga:$('#pretraziRezervacijuDugme').val(),
+            },
+            success:function(data){
+                $("#tbd").html(data); //tdb id za tbody i dodajemo mu data
+            }
+        });
+    });
+});
 
 
 </script>
