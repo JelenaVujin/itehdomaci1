@@ -67,7 +67,7 @@ $clanovi=Clan::vratiSveClanove($conn);
       </div>
 
       <div class="col-sm">
-        <button type="button" class="btn  btn-success btn-block" id="excel">Export u Excel</button>
+       <a href="exportToExcel.php" type="button" class="btn  btn-success btn-block" id="exportToExcel">Export u Excel</a> 
       </div>
 
   </div>
@@ -231,7 +231,14 @@ $('.sortable').each(function(){
     }
   });
 
+});
+//export u excel
+$(document).ready(function(){
+  $("#exportToExcel").click(function(e){
+
+  })
 })
+
 
 </script>
 </body>
