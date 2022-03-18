@@ -70,6 +70,10 @@ $clanovi=Clan::vratiSveClanove($conn);
        <a href="exportToExcel.php" type="button" class="btn  btn-success btn-block" id="exportToExcel">Export u Excel</a> 
       </div>
 
+      <div class="col-sm">
+       <a href="logout.php" type="button" class="btn  btn-success btn-block" id="logout">Odjava</a> 
+      </div>
+
   </div>
   </div>
 
@@ -92,18 +96,18 @@ $clanovi=Clan::vratiSveClanove($conn);
           foreach($rez as $r):
          $rID=$r['idR'];
         ?>
-          <tr>
+          <tr id="<?php echo $rID;?>">
             <td>
               <ul class="action-list">
-                <li><a  class="btn btn-primary"><i class="bi bi-pencil"></i></a></li>
-                <li><a href='brisanjeRezervacije.php?id=<?php echo $rID?>'class="btn btn-danger"><i class="bi bi-trash2"></i></a></li>
+                <li><a href="#" class="btn btn-primary edit" data-role="update"  data-id="<?php echo $rID?>"><i class="bi bi-pencil"></i></a></li>
+                <li><a href='brisanjeRezervacije.php?id=<?php echo $rID;?>'class="btn btn-danger"><i class="bi bi-trash2"></i></a></li>
               </ul>
           </td>
             <td><?php echo $i;  $i++; ?></td>
-            <td><?php echo $r['imePrezime']; ?></td>
-            <td><?php echo $r['knjiga']; ?></td>
-            <td><?php echo $r['pisac']; ?></td>
-            <td><?php echo $r['datum']; ?></td>
+            <td data-target="imePrezime"><?php echo $r['imePrezime']; ?></td>
+            <td data-target="knjiga"><?php echo $r['knjiga']; ?></td>
+            <td data-target="pisac"><?php echo $r['pisac']; ?></td>
+            <td data-target="datum"><?php echo $r['datum']; ?></td>
           </tr>
         <?php  endforeach;?>
       </tbody>
@@ -113,7 +117,7 @@ $clanovi=Clan::vratiSveClanove($conn);
 <!--MODALI-->
 
 
-
+<!-- DODAJ CLANA-->
 <div class="modal fade" id="dodajClanaModal" role="dialog">
         <div class="modal-dialog">
         <div class="modal-content">
@@ -140,9 +144,7 @@ $clanovi=Clan::vratiSveClanove($conn);
           </div>
          </div>
 </div>
-
-
-
+<!-- DODAJ REZERVACIJU-->
 <div class="modal fade" id="dodajRezervacijuModal" role="dialog">
         <div class="modal-dialog">
         <div class="modal-content">
@@ -153,19 +155,19 @@ $clanovi=Clan::vratiSveClanove($conn);
                          
                           <div class="form-group">
                                <label for="">Knjiga: </label>
-                               <input type="text" name="knjiga" id="knjiga" class="form-control" />
+                               <input type="text" name="knjiga" id="knjiga" class="form-control" required=""/>
                           </div>
                           <div class="form-group">
                                <label for="">Pisac: </label>
-                               <input type="text"  name="pisac" id="pisac" class="form-control" />
+                               <input type="text"  name="pisac" id="pisac" class="form-control" required=""/>
                           </div>
                           <div class="form-group">
                                <label for="">Datum: </label>
-                               <input type="date"  name="datum" id="datum" class="form-control" />
+                               <input type="date"  name="datum" id="datum" class="form-control" required=""/>
                           </div>
                           <div class="form-group">
                               <label for="clanovi">Clan: </label>
-                              <select class="form-control" name="idClan" id="idClan">
+                              <select class="form-control" name="idClan" id="idClan"required="">
                                 <?php foreach($clanovi as $c):  ?>
                                     <option value='<?php echo $c['idClan'];?>'  >
                                    
@@ -174,17 +176,52 @@ $clanovi=Clan::vratiSveClanove($conn);
                                  <?php endforeach; ?>
                     </select>
                           </div>
-                         
-                               <button id="dodajRezervaciju" type="button" class="btn btn-success ">Sacuvaj</button>
-                               <button type="button"  class="btn btn-success " data-dismiss="modal">Zatvori</button>
-                       
-                    
-              </form>
-           
+                         <button id="dodajRezervaciju" type="submit" class="btn btn-success ">Sacuvaj</button>
+                         <button type="button"  class="btn btn-success " data-dismiss="modal">Zatvori</button>
+                  </form>
           </div>
         </div>
       </div>
 </div>
+<!-- IZMENI REZERVACIJU-->
+<div class="modal fade" id="izmeniRezervacijuModal" role="dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-body">
+                 <h3 style="color: black; text-align:left">Izmeni rezervaciju</h3>
+                         
+                          <div class="form-group">
+                               <label for="">Knjiga: </label>
+                               <input type="text"  id="knjigaIzmena" class="form-control" required=""/>
+                          </div>
+                          <div class="form-group">
+                               <label for="">Pisac: </label>
+                               <input type="text"   id="pisacIzmena" class="form-control" required=""/>
+                          </div>
+                          <div class="form-group">
+                               <label for="">Datum: </label>
+                               <input type="date"  id="datumIzmena" class="form-control" required=""/>
+                          </div>
+                          <div class="form-group">
+                              <label for="clanovi">Clan: </label>
+                              <select  class="form-control" required=""  id="idClanIzmena">
+                                <?php foreach($clanovi as $c):  ?>
+                                    <option   value='<?php echo $c['idClan'];?>'  >
+                                   
+                                   <?php echo $c['imePrezime'];?>
+                                    </option>
+                                 <?php endforeach; ?>
+                    </select>
+                          </div>
+                          <input type="hidden" id="idR" class="form-control">
+                         <a href="#" id="izmeniRezervaciju" class="btn btn-success " >Sacuvaj</a>
+                         <button type="button"  class="btn btn-success " data-dismiss="modal">Zatvori</button>
+                  
+          </div>
+        </div>
+      </div>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="ajax.js" type="text/javascript"></script>
@@ -246,9 +283,65 @@ $(document).ready(function(){
             }
         });
     });
+    $('#dodajRezervaciju').click(function(){
+        var knjiga=$("#knjiga").val();
+        var pisac=$("#pisac").val();
+        var datum=$("#datum").val();
+        var idClan=$("#idClan").val();
+        var svi="knjiga="+knjiga+"&pisac="+pisac+"&datum="+datum+"&idClan="+idClan;
+        console.log(svi)
+        $.ajax({
+             type:'post',
+             url:'dodajRez.php',
+             data:svi,
+             success:function(s){
+                 console.log("dsdsd");
+             },
+             error:function(s){
+                 alert("Rezervacija nije dodata!");
+             }
+        });
+      });
+      $(document).on('click','a[data-role=update]',function(){
+        var id=$(this).data('id');
+        var knjiga=$("#"+id).children('td[data-target=knjiga]').text();
+        var pisac=$("#"+id).children('td[data-target=pisac]').text();
+        var datum=$("#"+id).children('td[data-target=datum]').text();
+        var idClan=$("#"+id).children('td[data-target=imePrezime]').html();
+       $("#knjigaIzmena").val(knjiga);
+       $("#pisacIzmena").val(pisac);
+       $("#datumIzmena").val(datum);
+       $('option#idClanIzmena select').html(idClan);
+       $("#idR").val(id);
+       $("#izmeniRezervacijuModal").modal('toggle');
+    });
+    $("#izmeniRezervaciju").on('click',function(){
+      var id=$("#idR").val();
+      var knjiga=$("#knjigaIzmena").val();
+      var pisac=$("#pisacIzmena").val();
+      var datum=$("#datumIzmena").val();
+      var idClan=$("#idClanIzmena :selected").val();
+      $.ajax({
+        url:'izmeniRez.php',
+        type:'POST',
+        data:{id:id,knjiga:knjiga,pisac:pisac,datum:datum,idClan:idClan},
+        success:function(response){
+          $("#"+id).children('td[data-target=knjiga]').text(knjiga);
+          $("#"+id).children('td[data-target=pisac]').text(pisac);
+          $("#"+id).children('td[data-target=datum]').text(datum);
+          $("#"+id).children('td[data-target=imePrezime]').text(idClan);
+          $("#izmeniRezervacijuModal").modal('toggle');
+          console.log(response);
+        },
+        error:function(response){
+          console.log(response)
+        }
+      })
+    })
+
+ 
+
 });
-
-
 </script>
 </body>
 </html>

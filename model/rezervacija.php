@@ -33,10 +33,6 @@ class Rezervacija
         
 		$result=$conn->query($upit);
         return $result;
-		
-			
-		
-	
     }
 	
 }

@@ -8,16 +8,16 @@
 if(mysqli_num_rows($rezultat)>0){
     while($r=mysqli_fetch_assoc($rezultat)){
       
-        $i=1;  
+      
         echo "<tr>
         <td></td>
-        <td> $i</td>
+        <td></td>  
         <td> ".$r['imePrezime']."</td>
         <td>".$r['knjiga']."</td>
         <td>".$r['pisac']."</td>
         <td>".$r['datum']."</td>
         </tr>";
-        $i++;
+      
        
     }
 }else{
